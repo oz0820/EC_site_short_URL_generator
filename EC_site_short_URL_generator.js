@@ -1,6 +1,6 @@
 javascript:
 const referenced_site = "https://webllica.com/copy-text-to-clipboard/";
-const version = "Ver.1.0";
+const version = "Ver.1.1";
 const url = location.href;
 const url_split = url.split("/", 3);
 const fqdn = url_split[2];
@@ -17,6 +17,8 @@ if (isAmazon) {
         item_id = url.substr( url.search(/\/dp\//)+4, 10);
     } else if (url.search(/\/product\//) !== -1) {
         item_id = url.substr( url.search(/\/product\//)+9, 10);
+    } else if (url.search(/\/ASIN\//) !== -1) {
+        item_id = url.substr(url.search(/\/ASIN\//)+6, 10);
     } else {
         alert("The URL could not be shortened.");
         exit;
