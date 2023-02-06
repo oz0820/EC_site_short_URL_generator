@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>doCopy</title>
+</head>
+<body>
+
+<h3>Copy the script</h3>
+1. Press the [Copy] button at the bottom.<br>
+2. Paste it into your bookmarks and save it.<br>
+3. Let's use it!<br>
+<br>
+Recommended environment is Chrome and Edge.<br>
+It does not work in Firefox.<br>
+※It may work in some settings.<br>
+<br>
+
+<button type="button" style="padding: 30px;" onclick="doCopy();">
+    COPY
+</button>
+
+<br><br><br><br>
+
+<label>
+    <textarea cols="120" rows="20" readonly id="tx_area"></textarea>
+</label>
+
+<script type="text/javascript">
+    let tx_area = document.getElementById('tx_area');
+    tx_area.style.visibility = 'hidden';
+    let script_str = '';
+    fetch('https://raw.githubusercontent.com/oz0820/EC_site_short_URL_generator/main/EC_site_short_URL_generator.js')
+        .then(response => response.text())
+        .then(data => {
+            script_str = data.replace(/\r?\n| {2,100}/g, '');
+            tx_area.innerHTML = script_str;
+            tx_area.style.visibility = 'visible';
+        });
+
+    function doCopy() {
+        let copyForm = document.createElement("textarea");
+        copyForm.textContent = script_str;
+        let bodyElm = document.getElementsByTagName("body")[0];
+        bodyElm.appendChild(copyForm);
+        copyForm.select();
+        const retVal = document.execCommand("copy");
+        bodyElm.removeChild(copyForm);
+        alert("Copied");
+    }
+</script>
+</body>
+</html>
