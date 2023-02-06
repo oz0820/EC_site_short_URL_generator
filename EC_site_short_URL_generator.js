@@ -1,6 +1,6 @@
 javascript:
 const referenced_site = "https://webllica.com/copy-text-to-clipboard/";
-const version = "Ver.1.1";
+const version = "Ver.1.2";
 const url = location.href;
 const url_split = url.split("/", 3);
 const fqdn = url_split[2];
