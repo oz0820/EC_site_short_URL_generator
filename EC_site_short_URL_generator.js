@@ -7,6 +7,8 @@ const fqdn = url_split[2];
 
 const isAmazon = /amazon./.test(fqdn);
 const isAliexpress = /aliexpress.com/.test(fqdn);
+const isDLsite = /dlsite.com/.test(fqdn);
+const isFanza = /dmm.co.jp/.test(fqdn);
 
 let out_url = "";
 
@@ -38,7 +40,15 @@ if (isAliexpress) {
     out_url = "https://" + out_fqdn + "/" + item_id;
 }
 
-if (!(isAmazon || isAliexpress)) {
+if (isDLsite) {
+    out_url = url.split('?')[0];
+}
+
+if (isFanza) {
+    out_url = url.split('?')[0];
+}
+
+if (!(isAmazon || isAliexpress || isDLsite || isFanza)) {
     out_url = url;
 }
 
