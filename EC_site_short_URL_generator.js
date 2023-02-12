@@ -22,7 +22,7 @@ if (isAmazon) {
     } else if (url.search(/\/ASIN\//) !== -1) {
         item_id = url.substr(url.search(/\/ASIN\//)+6, 10);
     } else {
-        alert("The URL could not be shortened.");
+        location.href = url + "&emi=AN1VRQENFRJN5";
         exit;
     }
     out_url = "https://" + out_fqdn + "/dp/" + item_id + "/";
