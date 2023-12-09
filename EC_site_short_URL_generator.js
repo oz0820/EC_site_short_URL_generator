@@ -1,6 +1,6 @@
 javascript:
 /*
-APP_VERSION: 2.0
+APP_VERSION: 2.1
 Github_Rep: https://github.com/oz0820/EC_site_short_URL_generator
 referenced_site: https://webllica.com/copy-text-to-clipboard/
 */
@@ -38,7 +38,7 @@ referenced_site: https://webllica.com/copy-text-to-clipboard/
 
     if (isAliexpress) {
         if (!!url_raw.match(/\/item\//)) {
-            out_url = url.protocol + '//' + url.host + url.pathname
+            out_url = url.origin + url.pathname
         } else {
             alert("The URL could not be shortened.")
             return
