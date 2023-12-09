@@ -2,54 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/source-map@0.7.3/dist/source-map.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/terser/dist/bundle.min.js"></script>
     <title>Copy from EC_site_short_URL_generator</title>
 </head>
 <body>
 
-<h3>Copy the script</h3>
-<a href="https://github.com/oz0820/EC_site_short_URL_generator">Source code</a>
-<br><br>
-1. Press the [Copy] button at the bottom.<br>
-2. Paste it into your bookmarks and save it.<br>
-3. Let's use it!<br>
-<br>
-Recommended environment is Chrome.<br>
-It does not work in Firefox and Edge.<br>
-※It may work in some settings.<br>
-<br>
-
-<button type="button" style="padding: 30px;" onclick="doCopy();">
-    COPY
-</button>
-
-<br><br><br><br>
-
-<label>
-    <textarea cols="120" rows="20" readonly id="tx_area"></textarea>
-</label>
-
-<script type="text/javascript">
-    let tx_area = document.getElementById('tx_area');
-    tx_area.style.visibility = 'hidden';
-    let script_str = '';
-    fetch('https://raw.githubusercontent.com/oz0820/EC_site_short_URL_generator/main/EC_site_short_URL_generator.js')
-        .then(response => response.text())
-        .then(data => {
-            script_str = data.replace(/\r?\n| {2,100}/g, '');
-            tx_area.innerHTML = script_str;
-            tx_area.style.visibility = 'visible';
-        });
-
-    function doCopy() {
-        let copyForm = document.createElement("textarea");
-        copyForm.textContent = script_str;
-        let bodyElm = document.getElementsByTagName("body")[0];
-        bodyElm.appendChild(copyForm);
-        copyForm.select();
-        const retVal = document.execCommand("copy");
-        bodyElm.removeChild(copyForm);
-        alert("Copied");
+<script>
+    const get_compressed_code = async url => {
+        return await fetch(url)
+            .then(res => {
+                return res.text()
+            })
+            .then(async code => {
+                const result = await Terser.minify(code, {
+                    output: {comments: /APP_VERSION/}
+                })
+                return result.code
+            })
     }
+
+    window.onload = async () => {
+        const code_url = `https://raw.githubusercontent.com/oz0820/EC_site_short_URL_generator/main/EC_site_short_URL_generator.js`
+        document.querySelector('textarea#code_textarea').textContent = 'javascript:' + await get_compressed_code(code_url);
+    }
+
+    function copyClipboard() {
+        navigator.clipboard.writeText(document.querySelector('textarea#code_textarea').textContent);
+        alert('クリップボードにコピーしました');
+    }
+
 </script>
+
+
+<h1>EC site short URL generator</h1>
+<a href="https://github.com/oz0820/EC_site_short_URL_generator">Github Repository</a>
+<br>
+<table>
+    <tbody>
+    <tr>
+        <td>
+            <textarea id="code_textarea" style="width: 80vw;max-width: 1200px;height: 400px;"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button onclick="copyClipboard();">Copy to Clipboard</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
 </body>
 </html>
