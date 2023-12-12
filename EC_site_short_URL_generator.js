@@ -1,8 +1,7 @@
 javascript:
 /*
-APP_VERSION: 2.1
+APP_VERSION: 2.2
 Github_Rep: https://github.com/oz0820/EC_site_short_URL_generator
-referenced_site: https://webllica.com/copy-text-to-clipboard/
 */
 (function () {
     const url = new URL(location.href)
@@ -21,11 +20,13 @@ referenced_site: https://webllica.com/copy-text-to-clipboard/
         const slim_hostname = hostname.slice(hostname.search(/amazon./))
         let item_id
         if (!!path.match(/\/dp\//)) {
-            item_id = path.match(/\/dp\/[A-Z0-9]+\//)[0].slice('/dp/'.length, -1)
+            item_id = path.match(/\/dp\/[A-Z0-9]+/)[0].slice('/dp/'.length)
         } else if (!!path.match(/\/product\//)) {
-            item_id = path.match(/\/product\/[A-Z0-9]+\//)[0].slice('/product/'.length, -1)
-        }else if (!!path.match(/\/ASIN\//)) {
-            item_id = path.match(/\/ASIN\/[A-Z0-9]+\//)[0].slice('/ASIN/'.length, -1)
+            item_id = path.match(/\/product\/[A-Z0-9]+/)[0].slice('/product/'.length)
+        } else if (!!path.match(/\/ASIN\//)) {
+            item_id = path.match(/\/ASIN\/[A-Z0-9]+/)[0].slice('/ASIN/'.length)
+        } else if (!!path.match(/\/gp\/video\/detail\//)) {
+            item_id = path.match(/\/gp\/video\/detail\/[A-Z0-9]+/)[0].slice('/gp/video/detail/'.length)
         } else {
             location.href = url + "&emi=AN1VRQENFRJN5"
             return
@@ -58,11 +59,11 @@ referenced_site: https://webllica.com/copy-text-to-clipboard/
     }
 
     // copy to clipboard
-    const textarea = document.createElement('textarea');
-    textarea.value = out_url;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
+    const textarea = document.createElement('textarea')
+    textarea.value = out_url
+    document.body.appendChild(textarea)
+    textarea.select()
+    document.execCommand('copy')
+    document.body.removeChild(textarea)
 })
 ();
