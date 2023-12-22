@@ -1,18 +1,20 @@
 javascript:
 /*
-APP_VERSION: 2.2
+APP_VERSION: 2.3
 Github_Rep: https://github.com/oz0820/EC_site_short_URL_generator
 */
 (function () {
     const url = new URL(location.href)
     const url_raw = location.href
     const hostname = url.hostname
+    const origin = url.origin
     const path = url.pathname
 
     const isAmazon = !!hostname.match(/amazon./)
     const isAliexpress = !!hostname.match(/aliexpress.com/)
     const isDLsite = !!hostname.match(/dlsite.com/)
     const isFanza = !!hostname.match(/dmm.co.jp/)
+    const isOliospec = !!hostname.match(/oliospec.com/)
 
     let out_url = ''
 
@@ -54,7 +56,26 @@ Github_Rep: https://github.com/oz0820/EC_site_short_URL_generator
         out_url = url.origin + url.pathname
     }
 
-    if (!(isAmazon || isAliexpress || isDLsite || isFanza)) {
+    if (isOliospec) {
+        if (path.startsWith('/shop/')) {
+            if (url.searchParams.has('brandcode')) {
+                out_url = origin + path + '?brandcode=' + url.searchParams.get('brandcode')
+                out_url = origin + '/shopdetail/' + url.searchParams.get('brandcode')
+            } else {
+                out_url = url_raw
+            }
+        } else if (path.startsWith('/shopdetail/')) {
+            out_url = !!path.match(/\/shopdetail\/[0-9]+\//) ?
+                origin + path.match(/\/shopdetail\/[0-9]+\//)[0] :
+                url_raw
+        }
+
+        else {
+            out_url = url_raw
+        }
+    }
+
+    if (!(isAmazon || isAliexpress || isDLsite || isFanza || isOliospec)) {
         out_url = url_raw
     }
 
